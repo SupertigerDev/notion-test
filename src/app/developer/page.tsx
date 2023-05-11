@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react'
 import { NotionPageResult, getDeveloperPage } from '../notion'
 import Link from 'next/link';
 
-export default function Home() {
+export default function DeveloperPage() {
   const [APIResults, setAPIResults] = useState<NotionPageResult[] | null>(null);
 
   useEffect(() => {
