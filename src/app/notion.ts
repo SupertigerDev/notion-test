@@ -1,12 +1,31 @@
 "use server"
 import { Client } from "@notionhq/client"
 
-const notion = new Client({ 
-    auth: "secret_zgI74QrPotbxclZxsm23aSwP4AcPNmLECEp7doySxPr"
+export interface NotionPageResult {
+    id: string;
+    paragraph: {
+        rich_text: {
+            plain_text: string
+        }[]
+    }
+}
+export interface NotionTableResult {
+    id: string;
+    properties: {
+        [key: string]: {
+            title?: { text: { content: string } }[]
+            rich_text: {
+                text: {
+                    content: string;
+                }
+            }[]
+        }
+    }
+}
+
+const notion = new Client({
+    auth: "xxxxx"
 });
-
-
-
 
 
 export async function getItems() {
@@ -14,10 +33,8 @@ export async function getItems() {
         database_id: '4809a7d2a8ed4427899853217d65bba4',
     })
 
-    return response.results;
+    return response.results as NotionTableResult[];
 }
-
-// get block ids from page
 
 
 export async function getDeveloperPage() {
@@ -25,5 +42,5 @@ export async function getDeveloperPage() {
         block_id: 'e464c318359347f4aa937e8006dad20b',
     })
 
-    return response;
+    return response.results as NotionPageResult[];
 }

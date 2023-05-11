@@ -1,19 +1,16 @@
 "use client"
-import Image from 'next/image'
 import { useEffect, useState } from 'react'
-import { getItems } from './notion'
+import { NotionTableResult, getItems } from './notion'
 import Link from 'next/link';
 
 export default function Home() {
-  const [APIResults, setAPIResults] = useState<any>(null);
+  const [APIResults, setAPIResults] = useState<NotionTableResult[] | null>(null);
 
   useEffect(() => {
-
     console.log("fetching")
     getItems().then(res => {
       setAPIResults(res);
     })
-
   }, [])
 
   return (
@@ -21,9 +18,9 @@ export default function Home() {
       <h1 className='font-bold m-5'>Home Page</h1>
 
       <div className='flex '>
-        {APIResults ? APIResults.map((item: any) => (
+        {APIResults ? APIResults.map(item => (
           <div className='whitespace-pre p-5' key={item.id}>
-            <div className='text-gray-500'>{item.properties.Name?.title[0]?.text.content}</div>
+            <div className='text-gray-500'>{item.properties.Name?.title?.[0]?.text.content}</div>
             <div>{item.properties.Tags.rich_text[0]?.text.content}</div>
           </div>
         )) : <div>Loading...</div>}
